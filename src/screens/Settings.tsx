@@ -6,6 +6,7 @@ import { FREQ_LABEL, KINDS, KIND_ORDER } from '../data/defaults';
 import { ConfirmButton } from '../components';
 import { fmtRange, parseReading, toInput } from '../logic/temp';
 import { dayKey } from '../logic/dates';
+import { PREVIEW_BLOCKED, inPreviewFrame } from '../env';
 
 export function Settings() {
   return (
@@ -299,6 +300,10 @@ function DataSection() {
   const [msg, setMsg] = useState('');
 
   function exportJson() {
+    if (inPreviewFrame) {
+      setMsg(PREVIEW_BLOCKED);
+      return;
+    }
     const blob = new Blob([JSON.stringify(db, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

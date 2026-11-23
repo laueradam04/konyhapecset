@@ -15,6 +15,7 @@ import {
 } from '../logic/dates';
 import { fmtNum, fmtRange, fmtTemp, fmtVal } from '../logic/temp';
 import { FREQ_LABEL } from '../data/defaults';
+import { PREVIEW_BLOCKED, inPreviewFrame } from '../env';
 
 const yesNo = (b: boolean) => (b ? 'rendben' : 'nem');
 const dayList = (days: number[]) => days.map((d) => `${d}.`).join(', ');
@@ -26,6 +27,7 @@ export function Report() {
   const todayKey = dayKey(now);
   const [month, setMonth] = useState(thisMonth);
   const [detailed, setDetailed] = useState(false);
+  const [printMsg, setPrintMsg] = useState('');
   const r = monthReport(db, month, now);
   const settings = db.settings!;
 
@@ -55,9 +57,18 @@ export function Report() {
             ›
           </button>
         </div>
-        <button type="button" className="button primary" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="button primary"
+          onClick={() => (inPreviewFrame ? setPrintMsg(PREVIEW_BLOCKED) : window.print())}
+        >
           Nyomtatás vagy PDF
         </button>
+        {printMsg && (
+          <p className="notice warn small" role="status">
+            {printMsg}
+          </p>
+        )}
         <label className="choice">
           <input type="checkbox" checked={detailed} onChange={(e) => setDetailed(e.target.checked)} />
           <span>Részletes lista is (minden mérés időponttal és névvel)</span>

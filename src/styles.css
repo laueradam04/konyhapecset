@@ -121,7 +121,7 @@ p {
 .app {
   max-width: 620px;
   margin: 0 auto;
-  padding: 14px 16px calc(96px + env(safe-area-inset-bottom));
+  padding: max(14px, env(safe-area-inset-top)) 16px calc(96px + env(safe-area-inset-bottom));
 }
 
 .app-bare {

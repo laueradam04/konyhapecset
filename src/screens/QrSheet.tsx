@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import { useDB } from '../data/store';
 import { fmtRange } from '../logic/temp';
+import { PREVIEW_BLOCKED, inPreviewFrame } from '../env';
 
 export function measureUrl(deviceId: string): string {
   const { origin, pathname, search } = window.location;
@@ -12,6 +13,7 @@ export function QrSheet() {
   const db = useDB();
   const devices = db.devices.filter((d) => d.active);
   const [codes, setCodes] = useState<Record<string, string>>({});
+  const [printMsg, setPrintMsg] = useState('');
   const idsKey = devices.map((d) => d.id).join(',');
 
   useEffect(() => {
@@ -41,9 +43,18 @@ export function QrSheet() {
             Nyomtasd ki, vágd szét, és ragaszd mindegyiket a saját hűtőjére. Beolvasva rögtön az adott eszköz mérése nyílik meg.
           </p>
         </header>
-        <button type="button" className="button primary" onClick={() => window.print()}>
+        <button
+          type="button"
+          className="button primary"
+          onClick={() => (inPreviewFrame ? setPrintMsg(PREVIEW_BLOCKED) : window.print())}
+        >
           Nyomtatás
         </button>
+        {printMsg && (
+          <p className="notice warn small" role="status" style={{ marginTop: 12 }}>
+            {printMsg}
+          </p>
+        )}
       </div>
       {devices.length === 0 ? (
         <p className="empty">Előbb vegyél fel legalább egy eszközt.</p>
