@@ -42,6 +42,8 @@ export function Today() {
     setMessage('');
   }
 
+  const allDone = tempDone === devices.length && devices.length > 0 && taskDoneCount === tasks.length && tasks.length > 0;
+
   return (
     <>
       {db.settings?.demo && (
@@ -61,6 +63,27 @@ export function Today() {
         <h1>{db.settings?.unitName}</h1>
         <p className="muted">{fmtDayLong(now)}</p>
       </header>
+
+      <div className="today-status-bar" aria-label="Napi összesítő">
+        <div className="status-tile">
+          <span className={`tile-num ${tempDone === devices.length && devices.length > 0 ? 'ok' : tempDone > 0 ? 'warn' : ''}`}>
+            {tempDone}/{devices.length}
+          </span>
+          <span className="tile-label">Hőmérséklet</span>
+        </div>
+        <div className="status-tile">
+          <span className={`tile-num ${taskDoneCount === tasks.length && tasks.length > 0 ? 'ok' : taskDoneCount > 0 ? 'warn' : ''}`}>
+            {taskDoneCount}/{tasks.length}
+          </span>
+          <span className="tile-label">Takarítás</span>
+        </div>
+        <div className="status-tile">
+          <span className={`tile-num ${deliveriesToday.length > 0 ? (rejectedToday > 0 ? 'warn' : 'ok') : ''}`}>
+            {deliveriesToday.length}
+          </span>
+          <span className="tile-label">Áruátvétel</span>
+        </div>
+      </div>
 
       <ShiftBar />
 

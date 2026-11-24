@@ -152,6 +152,7 @@ export function Measure({ id }: { id: string }) {
       </header>
 
       <div className={`readout${out ? ' is-alarm' : ok ? ' is-ok' : ''}`}>
+        <p className="readout-caption">{device.name}</p>
         <div className="readout-value" aria-live="polite" aria-label={value === null ? 'Nincs érték' : fmtTemp(value)}>
           <span className={raw ? '' : 'readout-empty'}>{raw ? raw.replace('-', '−') : '––,–'}</span>
           <span className="unit">°C</span>
