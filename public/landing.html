@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Konyhapecsét – digitális HACCP-napló kis vendéglátóhelyeknek. Hűtők, takarítás, áruátvétel – telefonról, papír nélkül." />
+  <title>Konyhapecsét – Digitális HACCP-napló</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #111827;
+      --ink2:   #374151;
+      --muted:  #6b7280;
+      --line:   #e5e7eb;
+      --bg:     #f9fafb;
+      --white:  #ffffff;
+      --brand:  #0f4c81;
+      --brand2: #1a6bb5;
+      --accent: #e8f1fb;
+      --green:  #15803d;
+      --green-s:#dcfce7;
+      --amber:  #92400e;
+      --amber-s:#fef3c7;
+      --red:    #991b1b;
+      --red-s:  #fee2e2;
+      --r:      10px;
+      --shadow: 0 4px 24px rgba(15,76,129,.10);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+      padding: .9rem 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .nav-logo { font-family:'DM Serif Display',serif; font-size:1.25rem; color:var(--brand); letter-spacing:-.02em; text-decoration:none; }
+    .nav-logo span { color:var(--ink); }
+    nav .spacer { flex:1; }
+    .nav-link { font-size:.875rem; font-weight:500; color:var(--ink2); text-decoration:none; display:none; }
+    @media(min-width:640px){ .nav-link { display:inline; } }
+    .nav-cta {
+      background:var(--brand); color:#fff; border:none; border-radius:var(--r);
+      padding:.5rem 1.1rem; font-size:.875rem; font-weight:600; cursor:pointer;
+      text-decoration:none; white-space:nowrap;
+      transition: background .15s;
+    }
+    .nav-cta:hover { background:var(--brand2); }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 900px; margin: 0 auto; padding: 5rem 1.5rem 4rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:.4rem;
+      background:var(--accent); color:var(--brand); border-radius:99px;
+      padding:.35rem .9rem; font-size:.8rem; font-weight:600; margin-bottom:1.5rem;
+    }
+    .hero h1 {
+      font-family:'DM Serif Display',serif;
+      font-size: clamp(2.1rem, 5vw, 3.4rem);
+      line-height:1.15; letter-spacing:-.03em;
+      color:var(--ink); margin-bottom:1.25rem;
+    }
+    .hero h1 em { font-style:normal; color:var(--brand); }
+    .hero p {
+      font-size:1.1rem; color:var(--ink2); max-width:560px; margin:0 auto 2rem;
+    }
+    .hero-btns { display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; }
+    .btn-primary {
+      background:var(--brand); color:#fff; border:none; border-radius:var(--r);
+      padding:.8rem 1.6rem; font-size:1rem; font-weight:600; cursor:pointer;
+      text-decoration:none; display:inline-flex; align-items:center; gap:.5rem;
+      box-shadow: 0 2px 12px rgba(15,76,129,.25);
+      transition: background .15s, transform .1s;
+    }
+    .btn-primary:hover { background:var(--brand2); transform:translateY(-1px); }
+    .btn-ghost {
+      background:transparent; color:var(--brand); border:1.5px solid var(--brand);
+      border-radius:var(--r); padding:.8rem 1.6rem; font-size:1rem; font-weight:600;
+      cursor:pointer; text-decoration:none;
+      transition: background .15s;
+    }
+    .btn-ghost:hover { background:var(--accent); }
+
+    /* ── SOCIAL PROOF BAR ── */
+    .proof-bar {
+      background:var(--white); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+      padding:1.1rem 1.5rem;
+      display:flex; justify-content:center; gap:2.5rem; flex-wrap:wrap;
+    }
+    .proof-item { text-align:center; }
+    .proof-num { font-size:1.6rem; font-weight:800; color:var(--brand); line-height:1; }
+    .proof-label { font-size:.75rem; color:var(--muted); margin-top:.2rem; }
+
+    /* ── PROBLEM ── */
+    .problem {
+      background:var(--ink); color:#fff;
+      padding:4rem 1.5rem;
+      text-align:center;
+    }
+    .problem h2 {
+      font-family:'DM Serif Display',serif;
+      font-size:clamp(1.6rem,4vw,2.4rem); margin-bottom:1rem;
+    }
+    .problem p { color:#9ca3af; max-width:560px; margin:0 auto 2.5rem; font-size:1.05rem; }
+    .problem-grid {
+      display:grid; gap:1rem; max-width:800px; margin:0 auto;
+      grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    }
+    .problem-card {
+      background:#1f2937; border-radius:var(--r); padding:1.3rem;
+      text-align:left; border:1px solid #374151;
+    }
+    .problem-card .icon { font-size:1.6rem; margin-bottom:.6rem; }
+    .problem-card h3 { font-size:.95rem; font-weight:600; margin-bottom:.4rem; }
+    .problem-card p { font-size:.85rem; color:#9ca3af; line-height:1.5; }
+
+    /* ── FEATURES ── */
+    .features { padding:5rem 1.5rem; max-width:1000px; margin:0 auto; }
+    .section-label {
+      font-size:.75rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+      color:var(--brand); margin-bottom:.6rem;
+    }
+    .section-title {
+      font-family:'DM Serif Display',serif;
+      font-size:clamp(1.6rem,4vw,2.4rem); margin-bottom:.7rem;
+    }
+    .section-sub { color:var(--ink2); max-width:520px; margin-bottom:3rem; }
+
+    .feat-grid {
+      display:grid; gap:1.5rem;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    }
+    .feat-card {
+      background:var(--white); border-radius:var(--r); padding:1.6rem;
+      border:1px solid var(--line); box-shadow:var(--shadow);
+      transition: transform .15s, box-shadow .15s;
+    }
+    .feat-card:hover { transform:translateY(-3px); box-shadow:0 8px 32px rgba(15,76,129,.13); }
+    .feat-icon {
+      width:44px; height:44px; border-radius:10px;
+      background:var(--accent); display:flex; align-items:center; justify-content:center;
+      font-size:1.4rem; margin-bottom:1rem;
+    }
+    .feat-card h3 { font-size:1rem; font-weight:700; margin-bottom:.4rem; }
+    .feat-card p { font-size:.875rem; color:var(--ink2); line-height:1.55; }
+
+    /* ── HOW IT WORKS ── */
+    .how { background:var(--accent); padding:5rem 1.5rem; }
+    .how-inner { max-width:800px; margin:0 auto; }
+    .how h2 {
+      font-family:'DM Serif Display',serif;
+      font-size:clamp(1.6rem,4vw,2.4rem); margin-bottom:.6rem; text-align:center;
+    }
+    .how-sub { color:var(--ink2); text-align:center; margin-bottom:3rem; }
+    .steps { display:flex; flex-direction:column; gap:1.5rem; }
+    .step {
+      display:flex; gap:1.25rem; align-items:flex-start;
+      background:var(--white); border-radius:var(--r); padding:1.4rem;
+      box-shadow:var(--shadow);
+    }
+    .step-num {
+      flex-shrink:0; width:36px; height:36px; border-radius:50%;
+      background:var(--brand); color:#fff;
+      display:flex; align-items:center; justify-content:center;
+      font-weight:800; font-size:.95rem;
+    }
+    .step-body h3 { font-size:1rem; font-weight:700; margin-bottom:.3rem; }
+    .step-body p { font-size:.875rem; color:var(--ink2); }
+
+    /* ── COMPARE ── */
+    .compare { padding:5rem 1.5rem; max-width:800px; margin:0 auto; text-align:center; }
+    .compare h2 {
+      font-family:'DM Serif Display',serif;
+      font-size:clamp(1.5rem,4vw,2.2rem); margin-bottom:2.5rem;
+    }
+    .compare-table { width:100%; border-collapse:collapse; font-size:.9rem; }
+    .compare-table th {
+      padding:.75rem 1rem; font-weight:700;
+      border-bottom:2px solid var(--line);
+    }
+    .compare-table th:first-child { text-align:left; }
+    .compare-table th.ours { color:var(--brand); }
+    .compare-table td {
+      padding:.7rem 1rem; border-bottom:1px solid var(--line);
+      text-align:center;
+    }
+    .compare-table td:first-child { text-align:left; color:var(--ink2); font-size:.85rem; }
+    .compare-table tr:last-child td { border-bottom:none; }
+    .check { color:var(--green); font-size:1.1rem; }
+    .cross { color:#d1d5db; font-size:1.1rem; }
+    .partial { color:var(--amber); font-size:.85rem; font-weight:600; }
+
+    /* ── PRICING ── */
+    .pricing { background:var(--ink); color:#fff; padding:5rem 1.5rem; text-align:center; }
+    .pricing h2 {
+      font-family:'DM Serif Display',serif;
+      font-size:clamp(1.6rem,4vw,2.4rem); margin-bottom:.6rem;
+    }
+    .pricing-sub { color:#9ca3af; margin-bottom:3rem; }
+    .price-cards {
+      display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; max-width:700px; margin:0 auto;
+    }
+    .price-card {
+      background:#1f2937; border:1px solid #374151; border-radius:var(--r);
+      padding:2rem 1.6rem; min-width:260px; flex:1;
+      text-align:left; position:relative;
+    }
+    .price-card.featured {
+      border-color:var(--brand2); box-shadow:0 0 0 2px var(--brand2);
+    }
+    .price-badge {
+      position:absolute; top:-12px; left:50%; transform:translateX(-50%);
+      background:var(--brand); color:#fff; font-size:.75rem; font-weight:700;
+      padding:.2rem .8rem; border-radius:99px; white-space:nowrap;
+    }
+    .price-name { font-size:.85rem; font-weight:600; color:#9ca3af; margin-bottom:.6rem; }
+    .price-amount { font-size:2.4rem; font-weight:800; line-height:1; margin-bottom:.3rem; }
+    .price-amount span { font-size:.95rem; font-weight:400; color:#9ca3af; }
+    .price-desc { font-size:.85rem; color:#9ca3af; margin-bottom:1.5rem; }
+    .price-features { list-style:none; display:flex; flex-direction:column; gap:.5rem; margin-bottom:1.6rem; }
+    .price-features li { font-size:.875rem; display:flex; gap:.5rem; align-items:flex-start; }
+    .price-features li::before { content:'✓'; color:#4ade80; flex-shrink:0; }
+    .price-cta {
+      display:block; text-align:center; background:var(--brand); color:#fff;
+      border-radius:var(--r); padding:.7rem; font-weight:600; text-decoration:none;
+      transition:background .15s;
+    }
+    .price-cta:hover { background:var(--brand2); }
+    .price-card:not(.featured) .price-cta {
+      background:#374151; color:#e5e7eb;
+    }
+    .price-card:not(.featured) .price-cta:hover { background:#4b5563; }
+
+    /* ── FAQ ── */
+    .faq { padding:5rem 1.5rem; max-width:680px; margin:0 auto; }
+    .faq h2 {
+      font-family:'DM Serif Display',serif;
+      font-size:clamp(1.5rem,4vw,2.2rem); margin-bottom:2.5rem; text-align:center;
+    }
+    details {
+      border-bottom:1px solid var(--line); padding:.9rem 0;
+    }
+    summary {
+      font-weight:600; cursor:pointer; list-style:none;
+      display:flex; justify-content:space-between; align-items:center;
+      font-size:.95rem;
+    }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:'+'; font-size:1.2rem; color:var(--brand); flex-shrink:0; }
+    details[open] summary::after { content:'−'; }
+    details p { font-size:.9rem; color:var(--ink2); padding-top:.6rem; line-height:1.6; }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      background:var(--brand); color:#fff;
+      padding:5rem 1.5rem; text-align:center;
+    }
+    .cta-section h2 {
+      font-family:'DM Serif Display',serif;
+      font-size:clamp(1.8rem,4vw,2.8rem); margin-bottom:.8rem;
+    }
+    .cta-section p { color:rgba(255,255,255,.8); margin-bottom:2rem; font-size:1.05rem; }
+    .btn-white {
+      background:#fff; color:var(--brand); border:none; border-radius:var(--r);
+      padding:.85rem 1.8rem; font-size:1rem; font-weight:700; cursor:pointer;
+      text-decoration:none; display:inline-block;
+      box-shadow:0 4px 16px rgba(0,0,0,.15);
+      transition:transform .1s;
+    }
+    .btn-white:hover { transform:translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      background:var(--ink); color:#9ca3af; padding:2.5rem 1.5rem;
+      text-align:center; font-size:.8rem;
+    }
+    footer a { color:#6b7280; text-decoration:none; }
+    footer a:hover { color:#fff; }
+    .footer-links { display:flex; gap:1.5rem; justify-content:center; flex-wrap:wrap; margin-bottom:1rem; }
+
+    /* ── UTILITY ── */
+    .pill {
+      display:inline-block; padding:.2rem .7rem; border-radius:99px;
+      font-size:.75rem; font-weight:600;
+    }
+    .pill-green { background:var(--green-s); color:var(--green); }
+    .pill-amber { background:var(--amber-s); color:var(--amber); }
+    .pill-red   { background:var(--red-s);   color:var(--red); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">Konyha<span>pecsét</span></a>
+  <div class="spacer"></div>
+  <a class="nav-link" href="#features">Funkciók</a>
+  <a class="nav-link" href="#pricing">Árak</a>
+  <a class="nav-cta" href="./index.html">Kipróbálom →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span>🛡️</span> NÉBIH-elvárásoknak megfelelő
+  </div>
+  <h1>HACCP-napló, ami <em>tényleg</em><br>működik a konyhán</h1>
+  <p>Hűtők, takarítás, áruátvétel – telefonról vezeted, egy gombnyomásra kész a havi napló az ellenőrzésre. Papír nélkül.</p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="./index.html">Ingyenes próba →</a>
+    <a class="btn-ghost" href="#how">Hogyan működik?</a>
+  </div>
+</section>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-item">
+    <div class="proof-num">≈ 41 000</div>
+    <div class="proof-label">vendéglátóhely Magyarországon</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">5 perc</div>
+    <div class="proof-label">napi adminisztráció</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">0 papír</div>
+    <div class="proof-label">minden adat a telefonon</div>
+  </div>
+  <div class="proof-item">
+    <div class="proof-num">100%</div>
+    <div class="proof-label">böngészőben fut, app nélkül</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="problem">
+  <h2>A papíros napló ellen dolgozik</h2>
+  <p>Ha valaha ellenőr jött be és 20 percig keresed a megfelelő lapot a dossziéban, tudod miről beszélünk.</p>
+  <div class="problem-grid">
+    <div class="problem-card">
+      <div class="icon">📋</div>
+      <h3>Elfelejtett bejegyzések</h3>
+      <p>Reggeli rohanásban kimarad a hőmérséklet. Este senki nem emlékszik, ki mért.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">🗂️</div>
+      <h3>Ellenőrzéskor pánik</h3>
+      <p>A hatóság kéri az előző havi naplót. A dosszié valahol a raktárban van.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">✍️</div>
+      <h3>Kézírás, ami nem olvasható</h3>
+      <p>A hatóság elvárja, hogy minden bejegyzés visszakövethető és olvasható legyen.</p>
+    </div>
+    <div class="problem-card">
+      <div class="icon">💸</div>
+      <h3>Bírság papírba nyomtatva</h3>
+      <p>Hiányos dokumentáció miatt az első figyelmeztetés után már bírság jár.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-label">Funkciók</div>
+  <h2 class="section-title">Minden, amit a hatóság kér</h2>
+  <p class="section-sub">Az összes kötelező napló egy helyen, telefonról vezetve. Semmi felesleges.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon">🌡️</div>
+      <h3>Hőmérsékletnapló QR-kóddal</h3>
+      <p>Minden hűtőre saját QR-kód kerül. A dolgozó beolvassa, beírja a számot. Ha kilóg, kötelező megadni, mit tett.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">🧹</div>
+      <h3>Takarítási feladatok</h3>
+      <p>Napi, heti, havi feladatok pipa-listája. Ha kimarad valami, a rendszer mutatja.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📦</div>
+      <h3>Áruátvételi napló</h3>
+      <p>Beszállító, áru, hőmérséklet, csomagolás, döntés. Visszahívás esetén másodpercek alatt megtalálod.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📄</div>
+      <h3>Havi napló egy gombbal</h3>
+      <p>PDF-ben nyomtatható napló az ellenőrzésre: napok × hűtők táblázat, eltérések, aláírás.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">👤</div>
+      <h3>Ki volt műszakban</h3>
+      <p>Minden bejegyzésnél látszik, melyik dolgozó rögzítette és mikor. Visszakövethető, hiteles.</p>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">📱</div>
+      <h3>Telefon, tablet, számítógép</h3>
+      <p>Böngészőben fut, app telepítése nem kell. A konyhai tableten és a főnök telefonján egyszerre.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="how-inner">
+    <div class="section-label" style="text-align:center">Így működik</div>
+    <h2>Három lépés a papírmentes naplóhoz</h2>
+    <p class="how-sub">Az első naptól használható, bonyolult bevezetés nélkül.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>Beállítás (10 perc)</h3>
+          <p>Felírja a hűtők nevét, a dolgozók nevét és a feladatokat. A QR-kódokat kinyomtatja és felragasztja.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>Napi használat (5 perc)</h3>
+          <p>A dolgozó beolvassa a QR-kódot, beírja a hőmérsékletet, kipipálja a takarítást. Kész.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>Ellenőrzéskor (30 másodperc)</h3>
+          <p>A vezető megnyitja a Havi napló menüt, kattint a Nyomtatás gombra. Az ellenőr kap egy aláírásra kész PDF-et.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARE -->
+<section class="compare">
+  <h2>Konyhapecsét vs. a többiek</h2>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th class="ours">Konyhapecsét</th>
+        <th>Papír</th>
+        <th>Drága szoftver</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Telefonról vezethető</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="cross">–</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>App telepítése nélkül</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="cross">–</span></td>
+      </tr>
+      <tr>
+        <td>Havi nyomtatható napló</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="partial">kézzel</span></td>
+        <td><span class="check">✓</span></td>
+      </tr>
+      <tr>
+        <td>QR-kód minden hűtőn</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="cross">–</span></td>
+        <td><span class="partial">csak prónál</span></td>
+      </tr>
+      <tr>
+        <td>Kis konyha is megveszi</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="check">✓</span></td>
+        <td><span class="cross">–</span></td>
+      </tr>
+      <tr>
+        <td>Magyar support</td>
+        <td><span class="check">✓</span></td>
+        <td><span class="cross">–</span></td>
+        <td><span class="partial">csak prónál</span></td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label" style="color:#60a5fa">Árak</div>
+  <h2>Átlátható, egyszerű árazás</h2>
+  <p class="pricing-sub">Nincs rejtett díj, nincs éves keret. Havi előfizetés, bármikor lemondható.</p>
+  <div class="price-cards">
+    <div class="price-card">
+      <div class="price-name">Ingyenes</div>
+      <div class="price-amount">0 Ft <span>/ hó</span></div>
+      <div class="price-desc">Próbáld ki kötöttség nélkül</div>
+      <ul class="price-features">
+        <li>3 eszköz (hűtő, fagyasztó)</li>
+        <li>Korlátlan bejegyzés</li>
+        <li>Havi napló PDF-ben</li>
+        <li>1 dolgozói fiók</li>
+      </ul>
+      <a class="price-cta" href="./index.html">Ingyenes kipróbálás</a>
+    </div>
+    <div class="price-card featured">
+      <div class="price-badge">Legnépszerűbb</div>
+      <div class="price-name">Alap</div>
+      <div class="price-amount">3 900 Ft <span>/ hó</span></div>
+      <div class="price-desc">Egy konyha, minden funkcióval</div>
+      <ul class="price-features">
+        <li>Korlátlan eszköz</li>
+        <li>Korlátlan dolgozó</li>
+        <li>Áruátvételi napló</li>
+        <li>QR-kód nyomtatás</li>
+        <li>Mentés és visszaállítás</li>
+        <li>E-mail support</li>
+      </ul>
+      <a class="price-cta" href="./index.html">Kipróbálom →</a>
+    </div>
+  </div>
+  <p style="margin-top:1.5rem; font-size:.8rem; color:#6b7280;">Az árak ÁFA-t nem tartalmaznak. Számlázáshoz egyéni vállalkozói fiók szükséges.</p>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+  <h2>Gyakori kérdések</h2>
+
+  <details>
+    <summary>Elfogadja-e a hatóság a digitális naplót?</summary>
+    <p>A 28/2017. (V. 30.) FM rendelet lehetővé teszi az elektronikus nyilvántartást. A Konyhapecsét minden bejegyzést időbélyeggel és felhasználónévvel rögzít, ami megfelel az elvárásoknak. Javasolt a saját HACCP-tanácsadóval is egyeztetni, mert a helyi hatóságok gyakorlata eltérhet.</p>
+  </details>
+
+  <details>
+    <summary>Mi van, ha nincs internet a konyhán?</summary>
+    <p>Az adatok a telefonon és a számítógépen tárolódnak, internet nem kell a napi használathoz. A mentés-visszaállítás funkcióval bármikor exportálhatod az adatokat.</p>
+  </details>
+
+  <details>
+    <summary>Kell-e telepíteni valamit?</summary>
+    <p>Nem. A Konyhapecsét böngészőben fut – Chrome, Safari, Edge egyaránt megnyitja. Telefonra a kezdőképernyőre is mentheted ikonként.</p>
+  </details>
+
+  <details>
+    <summary>Mi van a régi adataimmal, ha lemondok?</summary>
+    <p>A beállításokban bármikor letöltheted az összes adatot. Az adataid a tiéid maradnak.</p>
+  </details>
+
+  <details>
+    <summary>Több helyszínre is működik?</summary>
+    <p>Az ingyenes és alap csomag egy konyhára szól. Több helyszínre szóló megoldásért írj nekünk.</p>
+  </details>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <h2>Próbáld ki ma – ingyen</h2>
+  <p>Nem kell regisztráció. Öt perc alatt látod, hogyan működik.</p>
+  <a class="btn-white" href="./index.html">Kipróbálom a Konyhapecsétet →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="#">ÁSZF</a>
+    <a href="#">Adatkezelés</a>
+    <a href="#">Impresszum</a>
+    <a href="mailto:info@konyhapecset.hu">Kapcsolat</a>
+  </div>
+  <p>© 2026 Konyhapecsét · Digitális HACCP-napló kis vendéglátóhelyeknek</p>
+  <p style="margin-top:.4rem; font-size:.75rem; color:#4b5563;">
+    A határértékek alapértelmezései tájékoztató jellegűek; a konyha saját HACCP-terve az irányadó.
+    Az oldal nem minősül jogi vagy hatósági tanácsadásnak.
+  </p>
+</footer>
+
+</body>
+</html>
